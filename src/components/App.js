@@ -77,7 +77,9 @@ const App = () => {
                     setShowLeaders={setShowLeaders}
                 />
             ) : null}
-            {showLeaders ? <Leaders collectionRef={collectionRef} /> : null}
+            {showLeaders ? (
+                <Leaders collectionRef={collectionRef} toHHMMSS={toHHMMSS} />
+            ) : null}
         </>
     );
 };
