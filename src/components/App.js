@@ -1,11 +1,27 @@
 import { useState, useEffect } from "react";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection } from "firebase/firestore";
 import Background from "../assets/background.png";
 import Waldo from "../assets/waldo.png";
-import Dropdown from "./Dropdown";
+import Dropdown from "./Dropdown.js";
+import Leaders from "./Leaders.js";
+
+const app = initializeApp({
+    apiKey: "AIzaSyCQyGRQgJdEfuViG-sSVnSvbX7DeUZ_vDU",
+    authDomain: "where-is-waldo-305ad.firebaseapp.com",
+    projectId: "where-is-waldo-305ad",
+    storageBucket: "where-is-waldo-305ad.appspot.com",
+    messagingSenderId: "1046645784974",
+    appId: "1:1046645784974:web:d05140bba3f8dc2896e4df",
+});
+const db = getFirestore(app);
+const collectionRef = collection(db, "users");
 
 const App = () => {
     const [found, setFound] = useState(false);
     const [time, setTime] = useState(0);
+    const [show, setShow] = useState(false);
+    const [showLeaders, setShowLeaders] = useState(false);
 
     const toHHMMSS = (num) => {
         const sec_num = parseInt(num, 10);
@@ -33,6 +49,10 @@ const App = () => {
         }
     });
 
+    useEffect(() => {
+        setShow(found);
+    }, [found]);
+
     return (
         <>
             <header>
@@ -48,7 +68,16 @@ const App = () => {
                 alt="waldo"
                 onClick={() => setFound(true)}
             />
-            {found ? <Dropdown time={toHHMMSS(time)} /> : null}
+            {show ? (
+                <Dropdown
+                    time={time}
+                    ftime={toHHMMSS(time)}
+                    collectionRef={collectionRef}
+                    setShow={setShow}
+                    setShowLeaders={setShowLeaders}
+                />
+            ) : null}
+            {showLeaders ? <Leaders collectionRef={collectionRef} /> : null}
         </>
     );
 };

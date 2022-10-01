@@ -56,7 +56,8 @@ header {
     filter: contrast(80%);
 }
 
-.dropdown-container {
+.dropdown-container,
+.leaders-container {
     @include flex(row, center, center);
 
     width: 100vw;
@@ -66,10 +67,21 @@ header {
     left: 0;
 }
 
-.dropdown {
+.dropdown,
+.leaders {
     @include flex(column, center, center);
 
     width: 400px;
-    height: 100px;
+    height: 200px;
+    gap: 1rem;
     background-color: $alpha-grey;
+
+    input {
+        text-align: center;
+    }
+}
+
+.leaders {
+    height: 60vh;
+    overflow: hidden;
 }
